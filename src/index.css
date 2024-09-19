@@ -1,0 +1,44 @@
+:root {
+    --color-primary: #007bff;
+    --color-secondary: #84BEEA;
+    --white: #ffffff;
+}
+
+.color-primary {
+    color: #007bff;
+}
+
+.color-secondary {
+    color: #84BEEA;
+}
+
+.btn {
+    border-radius: 0;
+    font-size: 14px;
+
+    &.btn-light {
+        border-radius: 5px;
+    }
+}
+
+.form-control {
+    border-radius: 0;
+    border: none;
+
+    &:is(:focus, :focus-visible) {
+        border: none;
+        box-shadow: none;
+    }
+
+    &::placeholder {
+        color: #999999;
+    }
+}
+
+
+
+#wrapper {
+    background-color: var(--color-primary);
+    min-height: 100vh;
+    padding: 16px;
+}

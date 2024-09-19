@@ -1,0 +1,31 @@
+.productsSearch {
+    background-color: var(--color-secondary);
+    padding: 6px;
+
+    .inputsBox,
+    .btnsBox {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .inputsBox {
+        margin-block-end: 6px;
+
+        .inputHolder {
+            flex: 1;
+        }
+
+        .btn {
+            min-width: 80px;
+            padding: 0;
+        }
+    }
+
+    .btnsBox {
+        .btn.active {
+            background-color: #ffc107;
+        }
+    }
+
+}
