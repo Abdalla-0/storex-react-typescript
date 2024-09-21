@@ -8,7 +8,7 @@ const { product } = styles;
 
 const { productsView } = styles;
 
-const ProductsView = ({ getItem }: { getItem: TProduct }) => {
+const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
   const dispatch = useAppDispatch();
   const { data } = useAppSelector((state) => state.products);
 
@@ -18,6 +18,9 @@ const ProductsView = ({ getItem }: { getItem: TProduct }) => {
 
   const addToCartHandler = (item: TProduct) => {
     getItem(item);
+    if (item.measurements.length > 1) {
+      console.log("Yes");
+    }
   };
 
   return (

@@ -8,7 +8,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <h1 className="m-auto">Page not found</h1>,
+    // errorElement: <h1 className="m-auto">Page not found</h1>,
     children: [
       {
         index: true,

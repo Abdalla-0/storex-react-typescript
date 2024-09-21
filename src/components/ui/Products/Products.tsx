@@ -3,7 +3,11 @@ import ProductsSearch from "./ProductsSearch/ProductsSearch";
 import ProductsView from "./ProductsView/ProductsView";
 import styles from "./style.module.css";
 const { products } = styles;
-const ProductsSection = ({ getItem }: { getItem: TProduct }) => {
+const ProductsSection = ({
+  getItem,
+}: {
+  getItem: (item: TProduct) => void;
+}) => {
   return (
     <div className={products}>
       <ProductsSearch />

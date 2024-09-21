@@ -2,10 +2,12 @@ import { Col, Row } from "react-bootstrap";
 import Products from "../../components/ui/Products/Products";
 import Cart from "../../components/ui/Cart/Cart";
 import { TProduct } from "../../types";
+import { useState } from "react";
 
 const Home = () => {
-  const getItem = ({ item }: { item: TProduct }) => {
-    console.log(item);
+  const [products, setProducts] = useState<TProduct[]>([]);
+  const getItem = (item: TProduct) => {
+    setProducts((prev) => [...prev, item]);
   };
   return (
     <>
@@ -14,7 +16,7 @@ const Home = () => {
           <Products getItem={getItem} />
         </Col>
         <Col md={6}>
-          <Cart />
+          <Cart products={products} />
         </Col>
       </Row>
     </>
