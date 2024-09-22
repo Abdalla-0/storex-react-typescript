@@ -15,13 +15,12 @@ const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
   const [modalToggler, setModalToggler] = useState(false);
   const handleToggle = () => setModalToggler(false);
 
-  const [productTilte, setProductTilte] = useState()
+  // const [productTilte, setProductTilte] = useState()
 
-  const titleHandler = (item: TProduct) => {
-    setProductTilte(item)
-    console.log(productTilte);
-    
-  }
+  // const titleHandler = (item: TProduct) => {
+  //   // setProductTilte(item)
+  //   // console.log(productTilte);
+  // };
 
   useEffect(() => {
     dispatch(actionGetProducts());
@@ -30,7 +29,7 @@ const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
   const addToCartHandler = (item: TProduct) => {
     if (item.measurements.length > 1) {
       setModalToggler(true);
-      titleHandler(item)
+      // titleHandler(item);
     } else {
       getItem(item);
     }
@@ -52,7 +51,7 @@ const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
 
         <Modal size="lg" show={modalToggler} onHide={handleToggle}>
           <Modal.Header closeButton>
-          {data && data.map((el) => (<Modal.Title key={el.product_id}>{el.product_name}</Modal.Title>)}
+            {/* {data && data.map((el) => (<Modal.Title key={el.product_id}>{el.product_name}</Modal.Title>)} */}
           </Modal.Header>
           <Modal.Body>
             <Row
