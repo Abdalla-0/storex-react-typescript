@@ -35,7 +35,14 @@
     }
 }
 
+.modal-content {
+    border: 0;
+}
 
+.modal-header .btn-close {
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+}
 
 #wrapper {
     background-color: var(--color-primary);
