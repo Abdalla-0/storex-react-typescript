@@ -36,22 +36,23 @@ const ProductsSearch = () => {
         </Button>
       </div>
       <div className={btnsBox}>
-        {data.map((el) => (
-          <Button
-            key={el.id}
-            className={`${btn} ${
-              isClicked && el.id === 1
-                ? active
-                : activeItem === el.id
-                ? active
-                : ""
-            }`}
-            variant="light"
-            onClick={() => activeHandler(el.id)}
-          >
-            {el.name}
-          </Button>
-        ))}
+        {data &&
+          data.map((el) => (
+            <Button
+              key={el.id}
+              className={`${btn} ${
+                isClicked && el.id === 1
+                  ? active
+                  : activeItem === el.id
+                  ? active
+                  : ""
+              }`}
+              variant="light"
+              onClick={() => activeHandler(el.id)}
+            >
+              {el.name}
+            </Button>
+          ))}
       </div>
     </div>
   );

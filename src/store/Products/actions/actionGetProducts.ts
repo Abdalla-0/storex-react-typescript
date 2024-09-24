@@ -8,7 +8,7 @@ type TResponse = TProduct[];
 const actionGetProducts = createAsyncThunk("products/actionGetProducts", async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI
     try {
-        const response = await axios.get<TResponse>('http://localhost:5005/rows')
+        const response = await axios.get<TResponse>('/api/products.json')
         return response.data
     } catch (error) {
         rejectWithValue(axiosError(error))
