@@ -4,33 +4,32 @@ import { actionGetProducts } from "../../../../store/Products/productsSlice";
 import styles from "./style.module.css";
 import { useEffect, useState } from "react";
 import { TProduct, TMeasurement } from "../../../../types";
+import { addToCart } from "../../../../store/cart/cartSlice";
 const { product } = styles;
 
 const { productsView } = styles;
 
-const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
+const ProductsView = () => {
   const dispatch = useAppDispatch();
   const { data } = useAppSelector((state) => state.products);
-
   const [show, setShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState<TProduct | null>(null);
-  const [selectedMeasurement, setSelectedMeasurement] =
-    useState<TMeasurement | null>(null);
 
   const addToCartHandler = (item: TProduct) => {
     if (item.measurements.length > 1) {
       setSelectedItem(item);
       setShow(true);
-      const productMeasurement = item.measurements.filter(
-        (measurement) => measurement === selectedMeasurement
-      );
-
-      const updatedItem = { ...item, measurements: productMeasurement };
-
-      getItem(updatedItem);
     } else {
-      getItem(item);
+      dispatch(addToCart(item));
     }
+  };
+
+  const updatedItemHandler = (selectedMeasurement: TMeasurement) => {
+    const productMeasurement = selectedItem?.measurements.filter(
+      (measurement) => measurement === selectedMeasurement
+    );
+    const updatedItem = { ...selectedItem, measurements: productMeasurement };
+    dispatch(addToCart(updatedItem));
   };
 
   useEffect(() => {
@@ -83,7 +82,7 @@ const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
                       className="w-100"
                       variant="primary"
                       onClick={() => {
-                        setSelectedMeasurement(measurement);
+                        updatedItemHandler(measurement);
                       }}
                     >
                       اختيار

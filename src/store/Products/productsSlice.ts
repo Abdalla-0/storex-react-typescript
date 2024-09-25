@@ -27,6 +27,7 @@ const productsSlice = createSlice({
             state.loading = "success"
             if (action.payload) {
                 state.data = action.payload
+
             }
         })
         builder.addCase(actionGetProducts.rejected, (state, action) => {

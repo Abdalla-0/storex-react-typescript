@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import Home from "./pages/Home/Home";
 function App() {
   return (
-    <Container>
+    <Container fluid>
       <div id="wrapper">
         <Home />
       </div>
