@@ -2,8 +2,8 @@ import { Button, Col, Modal, Row } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../../store/hook";
 import { actionGetProducts } from "../../../../store/Products/productsSlice";
 import styles from "./style.module.css";
-import { ReactElement, useEffect, useState } from "react";
-import { TProduct } from "../../../../types";
+import { useEffect, useState } from "react";
+import { TProduct, TMeasurement } from "../../../../types";
 const { product } = styles;
 
 const { productsView } = styles;
@@ -12,63 +12,22 @@ const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
   const dispatch = useAppDispatch();
   const { data } = useAppSelector((state) => state.products);
 
-  const [modalToggler, setModalToggler] = useState(false);
-  const handleToggle = () => setModalToggler(false);
-
-  const [measurementId, setMeasurementId] = useState<string>();
-
-  const [measurementModal, setMeasurementModal] = useState<ReactElement>();
+  const [show, setShow] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<TProduct | null>(null);
+  const [selectedMeasurement, setSelectedMeasurement] =
+    useState<TMeasurement | null>(null);
 
   const addToCartHandler = (item: TProduct) => {
     if (item.measurements.length > 1) {
-      setModalToggler(true);
-      setMeasurementModal(
-        <Modal size="lg" show={modalToggler} onHide={handleToggle}>
-          <Modal.Header closeButton>
-            <Modal.Title>{item.product_name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Row
-              className="fw-bold py-3"
-              style={{ borderBlockEnd: "1px solid #d5d5d5" }}
-            >
-              <Col>الخصائص</Col>
-              <Col xs={2}>السعر</Col>
-              <Col xs={2}>الكمية</Col>
-              <Col xs={3}></Col>
-            </Row>
-            {item.measurements.map((measurement) => (
-              <Row
-                key={measurement.measurement_id}
-                className="py-2"
-                style={{ borderBlockEnd: "1px solid #d5d5d5" }}
-              >
-                <Col>{measurement.nickname}</Col>
-                <Col xs={2}>
-                  {measurement.price ? measurement.price : "غير مسعر"}
-                </Col>
-                <Col xs={2}>311</Col>
-                <Col xs={3}>
-                  <Button
-                    className="w-100"
-                    variant="primary"
-                    onClick={() => setMeasurementId(measurement.measurement_id)}
-                  >
-                    اختيار
-                  </Button>
-                </Col>
-              </Row>
-            ))}
-          </Modal.Body>
-        </Modal>
+      setSelectedItem(item);
+      setShow(true);
+      const productMeasurement = item.measurements.filter(
+        (measurement) => measurement === selectedMeasurement
       );
 
-      item.measurements.filter(
-        (measurement) => measurement.measurement_id === measurementId
-      );
-      console.log(item);
+      const updatedItem = { ...item, measurements: productMeasurement };
 
-      // getItem(item);
+      getItem(updatedItem);
     } else {
       getItem(item);
     }
@@ -90,7 +49,51 @@ const ProductsView = ({ getItem }: { getItem: (item: TProduct) => void }) => {
             </Col>
           ))}
       </Row>
-      {measurementModal}
+      {
+        <Modal size="lg" show={show} onHide={() => setShow(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              {selectedItem && selectedItem.product_name}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Row
+              className="fw-bold py-3"
+              style={{ borderBlockEnd: "1px solid #d5d5d5" }}
+            >
+              <Col>الخصائص</Col>
+              <Col xs={2}>السعر</Col>
+              <Col xs={2}>الكمية</Col>
+              <Col xs={3}></Col>
+            </Row>
+            {selectedItem &&
+              selectedItem.measurements.map((measurement) => (
+                <Row
+                  key={measurement.measurement_id}
+                  className="py-2"
+                  style={{ borderBlockEnd: "1px solid #d5d5d5" }}
+                >
+                  <Col>{measurement.nickname}</Col>
+                  <Col xs={2}>
+                    {measurement.price ? measurement.price : "غير مسعر"}
+                  </Col>
+                  <Col xs={2}>311</Col>
+                  <Col xs={3}>
+                    <Button
+                      className="w-100"
+                      variant="primary"
+                      onClick={() => {
+                        setSelectedMeasurement(measurement);
+                      }}
+                    >
+                      اختيار
+                    </Button>
+                  </Col>
+                </Row>
+              ))}
+          </Modal.Body>
+        </Modal>
+      }
     </div>
   );
 };
