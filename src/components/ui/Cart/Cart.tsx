@@ -6,7 +6,7 @@ const { cart } = styles;
 const Cart = () => {
   const { data } = useAppSelector((state) => state.cart);
   if (data) {
-    console.log(data);
+    // console.log(data);
   }
 
   return (

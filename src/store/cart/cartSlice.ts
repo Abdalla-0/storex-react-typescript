@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { TProduct } from "../../types";
 
 interface ICartState {
@@ -19,11 +19,8 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            if (action.payload) {
-                state.data.push(action.payload)
-                // console.log(state.data);
-            }
-
+            state.data = action.payload
+            console.log(current(state.data));
         },
     },
 })
