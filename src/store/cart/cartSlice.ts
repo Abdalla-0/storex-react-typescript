@@ -1,26 +1,38 @@
-import { createSlice, current } from "@reduxjs/toolkit";
-import { TProduct } from "../../types";
+import { createSlice } from '@reduxjs/toolkit';
+import { TMeasurement, TProduct } from "../../types";
 
 interface ICartState {
     data: TProduct[],
-    // loading: TLoading,
-    // error: string | null
 }
 
 const initialState: ICartState = {
     data: [],
-    // loading: "idle",
-    // error: null,
 }
 
 
-const cartSlice = createSlice({
+export const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            state.data = action.payload
-            console.log(current(state.data));
+            const isExist = state.data.find((product) =>
+                product.measurements.some((measurement) =>
+                    action.payload.measurements.some((payloadMeasurement: TMeasurement) =>
+                        measurement.measurement_id === payloadMeasurement.measurement_id
+                    )
+                )
+            );
+
+            if (isExist) {
+                if (isExist.quantity) {
+                    isExist.quantity += 1;
+                }
+            } else {
+                state.data.push({ ...action.payload, quantity: 1 });
+            }
+
+
+
         },
     },
 })

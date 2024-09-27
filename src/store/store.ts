@@ -17,7 +17,7 @@ import storage from 'redux-persist/lib/storage';
 const rootPresistConfig = {
     key: "root",
     storage,
-    // whitelist: ["products", "cart",]
+    blacklist: ["products", "cart", "categories"]
 }
 // const cartPresistConfig = {
 //     key: "cart",
