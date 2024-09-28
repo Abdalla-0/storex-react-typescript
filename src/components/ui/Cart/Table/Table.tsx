@@ -5,42 +5,68 @@ import Table from "react-bootstrap/Table";
 import styles from "./style.module.css";
 const { cartInput } = styles;
 
+type TValues = {
+  [measurementId: string]: {
+    price: number;
+    quantity: number;
+    discount: number;
+    total: number;
+  };
+};
+
 const TableSection = () => {
   const { data } = useAppSelector((state) => state.cart);
-  const [quantity, setQuantity] = useState<number | undefined>();
-  const [price, setPrice] = useState<string | number>("");
-  const [discount, setDiscount] = useState<string | number>("");
-  const [total, setTotal] = useState<string | number>("");
-  let priceTest: string | number;
-  const quantityHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuantity(e.target.value);
-    // setTotal(price - discount);
-  };
-  const priceHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(e.target.value);
-    setTotal(price - discount);
-  };
-  const discountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDiscount(e.target.value);
-    setTotal(price - discount);
+  const [values, setValues] = useState<TValues>({});
+
+  const handleValueChange = (
+    measurementId: string,
+    field: "price" | "quantity" | "discount",
+    value: string | number
+  ) => {
+    const updatedValues = {
+      ...values,
+      [measurementId]: {
+        ...values[measurementId],
+        [field]: Number(value),
+        total: (
+          (field === "quantity"
+            ? Number(value)
+            : values[measurementId].quantity) *
+            (field === "price" ? Number(value) : values[measurementId].price) -
+          (field === "discount"
+            ? Number(value)
+            : values[measurementId].discount)
+        ).toFixed(2),
+      },
+    };
+    setValues(updatedValues as TValues);
   };
 
+  // Initialize values when data is loaded
   useEffect(() => {
     if (data.length > 0) {
-      data.map((product) => {
-        product.measurements.map((el) => {
-          if (el.price) {
-            setPrice(el.price);
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            priceTest = el.price;
-          }
-          if (el.discount) {
-            setDiscount(el.discount);
-          }
-          setQuantity(product.quantity);
-          setTotal(el.price ? el.price - el.discount : "");
+      const initialValues: {
+        [measurementId: string]: {
+          price: number;
+          quantity: number;
+          discount: number;
+          total: number;
+        };
+      } = {};
+
+      data.forEach((product) => {
+        product.measurements.forEach((measurement) => {
+          initialValues[measurement.measurement_id] = {
+            price: measurement.price || 0,
+            quantity: product.quantity || 1,
+            discount: measurement.discount || 0,
+            total:
+              (measurement.price || 0) * (product.quantity || 1) -
+              (measurement.discount || 0),
+          };
         });
       });
+      setValues(initialValues);
     }
   }, [data]);
 
@@ -68,27 +94,51 @@ const TableSection = () => {
                     <Form.Control
                       className={cartInput}
                       type="number"
-                      value={quantity && quantity}
-                      onChange={quantityHandler}
+                      value={values[measurement.measurement_id]?.quantity || 1}
+                      onChange={(e) =>
+                        handleValueChange(
+                          measurement.measurement_id,
+                          "quantity",
+                          e.target.value
+                        )
+                      }
                     />
                   </td>
                   <td>
                     <Form.Control
                       className={cartInput}
                       type="number"
-                      value={priceTest && priceTest}
-                      // onChange={priceHandler}
+                      min={measurement.price_min ? measurement.price_min : 0}
+                      max={999}
+                      step={0.1}
+                      value={values[measurement.measurement_id]?.price || 0}
+                      onChange={(e) =>
+                        handleValueChange(
+                          measurement.measurement_id,
+                          "price",
+                          e.target.value
+                        )
+                      }
                     />
                   </td>
                   <td>
                     <Form.Control
                       className={cartInput}
                       type="number"
-                      value={discount && discount}
-                      // onChange={discountHandler}
+                      min={measurement.price_min ? measurement.price_min : 0}
+                      step={0.1}
+                      max={999}
+                      value={values[measurement.measurement_id]?.discount || 0}
+                      onChange={(e) =>
+                        handleValueChange(
+                          measurement.measurement_id,
+                          "discount",
+                          e.target.value
+                        )
+                      }
                     />
                   </td>
-                  <td>{total && total}</td>
+                  <td>{values[measurement.measurement_id]?.total || 0}</td>
                 </tr>
               ))
             )}
