@@ -45,15 +45,7 @@ const TableSection = () => {
   // Initialize values when data is loaded
   useEffect(() => {
     if (data.length > 0) {
-      const initialValues: {
-        [measurementId: string]: {
-          price: number;
-          quantity: number;
-          discount: number;
-          total: number;
-        };
-      } = {};
-
+      const initialValues: TValues = {};
       data.forEach((product) => {
         product.measurements.forEach((measurement) => {
           initialValues[measurement.measurement_id] = {
