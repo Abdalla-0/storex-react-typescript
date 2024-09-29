@@ -1,0 +1,25 @@
+.detailsSection {
+    background-color: var(--color-secondary);
+    padding-inline: 8px;
+
+    .item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: 8px;
+
+        &:is(.totalQuantities) {
+            padding-inline-end: 8px;
+            border-inline-end: 1px solid #515151;
+        }
+    }
+
+    .total {
+        color: white;
+        padding-block: 16px;
+        margin-block: 16px;
+        background-color: #2c9b6a;
+        font-weight: bold;
+        font-size: 18px;
+    }
+}
