@@ -53,10 +53,12 @@ const TableSection = () => {
       setRowValues(initialValues);
       updateTotals(initialValues);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
     updateTotals(rowValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowValues]);
 
   const updateTotals = (values: TValues) => {
