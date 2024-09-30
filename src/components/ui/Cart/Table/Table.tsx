@@ -58,7 +58,7 @@ const TableSection = () => {
   useEffect(() => {
     updateTotals(rowValues);
   }, [rowValues]);
-  
+
   const updateTotals = (values: TValues) => {
     const newTotalQuantity = Object.values(values).reduce(
       (sum, item) => sum + item.quantity,
@@ -78,9 +78,9 @@ const TableSection = () => {
     setTotalDiscount(newTotalDiscount);
     dipatch(
       getTotal({
-        totalQuantity: newTotalQuantity,
-        totalPrice: newTotalPrice,
-        totalDiscount: newTotalDiscount,
+        totalQuantity: totalQuantity,
+        totalPrice: totalPrice,
+        totalDiscount: totalDiscount,
       })
     );
   };

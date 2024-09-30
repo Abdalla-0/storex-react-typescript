@@ -1,14 +1,15 @@
 import { Col, Form, Row } from "react-bootstrap";
 import styles from "./style.module.css";
 import { useAppSelector } from "../../../../store/hook";
+
 const { detailsSection, item, totalQuantities, total } = styles;
 
 const Details = () => {
-  // const [totalLast, setTotalLast] = useState();
-  // const discoutOnTotals = (value: string) => {
-  //   setTotalLast(totals.price - Number(value));
-  // };
   const totalValues = useAppSelector((state) => state.cart.total);
+
+  // const discoutOnTotals = (value: string) => {
+  //   setTotalPrice(totalValues.totalPrice - Number(value));
+  // };
 
   return (
     <div className={detailsSection}>
