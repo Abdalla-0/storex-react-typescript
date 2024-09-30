@@ -1,5 +1,5 @@
 export type TTotals = {
-    quantity: number;
-    price: number;
-    discount: number;
+    totalQuantity: number;
+    totalPrice: number;
+    totalDiscount: number;
 };
