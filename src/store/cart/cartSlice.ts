@@ -35,11 +35,12 @@ export const cartSlice = createSlice({
                 }
             } else {
                 state.data.push({ ...action.payload, quantity: 1 });
+                // console.log(JSON.parse(JSON.stringify(state.data)));
+
             }
         },
         getTotal: (state, action) => {
             state.total = action.payload
-
         }
 
     },

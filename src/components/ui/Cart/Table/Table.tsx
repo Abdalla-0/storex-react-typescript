@@ -5,6 +5,14 @@ import Table from "react-bootstrap/Table";
 import styles from "./style.module.css";
 import { getTotal } from "../../../../store/cart/cartSlice";
 const { cartInput, tableSection } = styles;
+interface Totals {
+  quantity: number;
+  price: number;
+  discount: number;
+}
+interface TableSectionProps {
+  totalsHandler: (newTotals: Totals) => void;
+}
 
 type TValues = {
   [measurementId: string]: {
@@ -17,8 +25,10 @@ type TValues = {
 
 type TField = "price" | "quantity" | "discount";
 
-const TableSection = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const TableSection: React.FC<TableSectionProps> = ({ totalsHandler }) => {
   const { data } = useAppSelector((state) => state.cart);
+
   const dipatch = useAppDispatch();
   const [rowValues, setRowValues] = useState<TValues>({});
   const [totalQuantity, setTotalQuantity] = useState(0);

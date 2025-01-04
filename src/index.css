@@ -1,6 +1,6 @@
 :root {
-    --color-primary: #007bff;
-    --color-secondary: #84BEEA;
+    --color-primary: #2c9b6a;
+    --color-secondary: rgb(141, 217, 208);
     --white: #ffffff;
 }
 
@@ -20,7 +20,9 @@
         border-radius: 5px;
     }
 }
-
+.btn.btn-primary {
+    background-color: var(--color-primary);
+}
 .form-control {
     border-radius: 0;
     border: none;

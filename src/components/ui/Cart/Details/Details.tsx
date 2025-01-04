@@ -3,8 +3,17 @@ import styles from "./style.module.css";
 import { useAppSelector } from "../../../../store/hook";
 
 const { detailsSection, item, totalQuantities, total } = styles;
+interface Totals {
+  quantity: number;
+  price: number;
+  discount: number;
+}
+interface DetailsProps {
+  totals: Totals;
+}
 
-const Details = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Details: React.FC<DetailsProps> = ({ totals }) => {
   const totalValues = useAppSelector((state) => state.cart.total);
 
   // const discoutOnTotals = (value: string) => {
